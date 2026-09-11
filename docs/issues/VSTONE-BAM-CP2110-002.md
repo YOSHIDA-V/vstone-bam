@@ -33,9 +33,9 @@
   - `ROOT_CAUSE_PROVEN`: source search finds only the pyserial import and
     `serial.Serial` construction in `bam/vstone/bus.py`; no CP2110 transport or
     constructor exists.
-  - `FIXED_IN_CONTROLLED_ENVIRONMENT`: the Windows-native fake-HID suite passes,
-    the compiled Windows `hidapi` module imports, and the built wheel contains
-    both the CP2110 module and its optional dependency metadata.
+  - `FIXED_IN_CONTROLLED_ENVIRONMENT`: the platform-neutral fake-HID suite
+    passes, and the built wheel contains both the CP2110 module and its optional
+    dependency metadata.
 - Files allowed to change:
   - `bam/vstone/cp2110.py`
   - `bam/vstone/bus.py`
@@ -50,9 +50,9 @@
   - existing manufacturer drivers
   - servo ROM, IDs, baud setting, torque state, and physical hardware
 - Controlled-environment pass criteria:
-  - `hidapi==0.15.0` is an optional identification dependency and its Windows
-    native module is imported only when CP2110 access is requested.
-  - no WSL runtime or `pycp2110` DLL lookup is required.
+  - `hidapi==0.15.0` is an optional identification dependency and is imported
+    only when CP2110 access is requested.
+  - no WSL runtime or `pycp2110` wrapper is required.
   - the CP2110 transport validates an already-enabled UART at the explicitly
     requested baud, 8 data bits, no parity, one stop bit, and no flow control.
   - TX must already be open-drain; a mismatched adapter is closed and rejected
@@ -67,15 +67,11 @@
     `FA AF 01 0F 2A 02 00 26`.
   - existing pyserial construction and all upstream tests do not regress.
 - Target pass criteria:
-  - after separate explicit hardware authorization, the same immutable candidate
-    reads one valid `FD DF` response through CP2110 without sending torque or
-    target-position commands.
+  - after separate explicit hardware authorization on native Ubuntu, the same
+    immutable candidate reads one valid `FD DF` response through CP2110 without
+    sending torque or target-position commands.
 - Previously verified behaviors that must not regress:
   - the existing dual-arm CP2110 reader remains the rollback reference and is not
     modified.
   - constructing a Vstone bus performs no implicit torque or motion command.
   - importing the base package does not require a hardware dependency.
-- Separate blocker resolved: installing the complete upstream `identification`
-  extra initially failed because its unconstrained `PyQt5-Qt5` dependency
-  resolved to a release without a Windows wheel. The fix and evidence are
-  tracked in `VSTONE-BAM-WINDOWS-EXTRA-003`.

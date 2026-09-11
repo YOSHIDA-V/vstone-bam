@@ -1,4 +1,4 @@
-"""Windows-native CP2110 HID transport for the Vstone/Futaba TTL bus."""
+"""CP2110 HID transport for the Vstone/Futaba TTL bus."""
 
 from __future__ import annotations
 

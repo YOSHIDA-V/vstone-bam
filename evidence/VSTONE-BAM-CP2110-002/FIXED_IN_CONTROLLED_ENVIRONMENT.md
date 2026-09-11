@@ -1,7 +1,7 @@
 # Controlled CP2110 transport evidence
 
 - Run ID: `VSTONE-BAM-CP2110-002-CONTROLLED-20260911-WINDOWS`
-- Runtime: native Windows, CPython 3.12, no WSL
+- Runtime: Windows host, CPython 3.12; platform-neutral controlled tests only
 - Hardware target: `controlled_fake_cp2110_only`
 - Physical commands: none
 - Result: `uv run --with pytest pytest -q` -> `19 passed`
@@ -15,5 +15,5 @@
 - Wheel inspection:
   - contains `bam/vstone/cp2110.py`
   - contains `Requires-Dist: hidapi==0.15.0; extra == "identification"`
-- Scope limit: no CP2110 or VS-S055 was opened. Windows physical telemetry is
-  not verified by this run.
+- Scope limit: no CP2110 or VS-S055 was opened. Native-Ubuntu installation and
+  physical telemetry are not verified by this run.

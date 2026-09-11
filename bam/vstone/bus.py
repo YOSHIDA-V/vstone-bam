@@ -78,7 +78,7 @@ class VstoneBus:
         serial_number: str | None = None,
         hid_module: Any | None = None,
     ) -> Self:
-        """Open the Windows-native CP2110 open-drain transport explicitly."""
+        """Open the CP2110 open-drain transport explicitly."""
 
         from .cp2110 import Cp2110Transport
 

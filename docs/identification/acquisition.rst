@@ -21,9 +21,8 @@ Then, install the extra dependencies for the identification pipeline using
 
    uv sync --extra identification
 
-On native Windows, the extra constrains the Qt runtime to the available
-``PyQt5-Qt5==5.15.2`` wheel. WSL is not required for installation or CP2110
-communication.
+The intended Vstone target is native Ubuntu. Installation and CP2110
+communication run in that Ubuntu environment and do not require WSL.
 
 Trajectories
 ----------------------
@@ -183,14 +182,14 @@ must not be assumed to be the configured value of a VS-S055.
 
 For the CP2110 hardware path previously used with the Vstone dual-arm master,
 use ``VstoneBus.open_cp2110(baudrate=115200)`` after installing the
-``identification`` extra. This path uses the ``hidapi`` Windows wheel directly
+``identification`` extra. This path uses ``hidapi`` directly in native Ubuntu
 and does not require WSL. This constructor validates the requested baud rate,
 8N1 framing, disabled flow control, an already-enabled UART, and open-drain TX.
 It does not enable UART or change the UART/pin configuration. CP2110 HID
 framing, local-echo validation, FIFO recovery, and eight bounded read attempts
 are kept inside the transport boundary. If multiple CP2110 adapters are
 connected, pass ``serial_number=...`` explicitly. The position-read packet has
-prior physical-use evidence through the earlier WSL path; this Windows-native
+prior physical-use evidence through the earlier reader; this native-Ubuntu
 transport, telemetry-block reads, and all torque or target-position writes
 still require separate target verification in this repository.
 
