@@ -3,10 +3,13 @@
 from .actuator import VSS055Actuator, VSS055CActuator
 from .bus import VstoneBus
 from .cp2110 import Cp2110Transport
+from .specifications import VS_S055_SPECIFICATION, VstoneServoSpecification
 
 __all__ = [
+    "VS_S055_SPECIFICATION",
     "Cp2110Transport",
     "VSS055Actuator",
     "VSS055CActuator",
     "VstoneBus",
+    "VstoneServoSpecification",
 ]

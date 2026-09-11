@@ -172,3 +172,37 @@ def test_vstone_models_are_registered_but_have_no_bundled_parameters(
     assert actuator.get_extra_inertia() == model.armature.value
     with pytest.raises(FileNotFoundError):
         load_model(motor_name=motor_name, model="m1")
+
+
+def test_vs_s055_published_specification_is_registered_as_metadata():
+    from bam.vstone import VS_S055_SPECIFICATION, VSS055Actuator, VSS055CActuator
+
+    specification = VS_S055_SPECIFICATION
+
+    assert VSS055Actuator.specification is specification
+    assert VSS055CActuator.specification is None
+    assert specification.model_name == "VS-S055"
+    assert specification.cable_type == "normal cable"
+    assert specification.listed_price_jpy_before_tax == 4_000
+    assert specification.dimensions_mm == (19.6, 35.8, 25.0)
+    assert specification.mass_g == 19.6
+    assert specification.output_torque_kgf_cm == 5.5
+    assert specification.output_torque_voltage_v == 7.2
+    assert specification.speed_s_per_60_deg == 0.16
+    assert specification.speed_voltage_v == 7.4
+    assert specification.motion_range_deg == 300.0
+    assert specification.supply_voltage_range_v == (4.8, 7.4)
+    assert specification.listed_control_methods == ("TTL command", "PWM")
+    assert specification.max_baudrate_bps == 230_400
+    assert specification.serial_electrical_interface == "TTL half-duplex"
+    assert specification.serial_command_compatibility == (
+        "Futaba serial command compatible"
+    )
+    assert specification.sensor_information == ("angle", "torque", "temperature")
+    assert specification.calibration_points == 31
+    assert specification.package_contents == (
+        "servo",
+        "servo horn",
+        "servo horn screw",
+        "ADH servo connector (200 mm)",
+    )

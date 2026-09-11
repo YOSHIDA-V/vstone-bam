@@ -4,6 +4,8 @@ from bam.actuator import VoltageControlledActuator
 from bam.parameter import Parameter
 from bam.testbench import Testbench
 
+from .specifications import VS_S055_SPECIFICATION, VstoneServoSpecification
+
 
 class _UnidentifiedVstoneActuator(VoltageControlledActuator):
     """Shared fit-ready boundary for unidentified Vstone servos.
@@ -15,6 +17,7 @@ class _UnidentifiedVstoneActuator(VoltageControlledActuator):
     """
 
     servo_model: str
+    specification: VstoneServoSpecification | None = None
 
     def __init__(self, testbench_class: Testbench):
         super().__init__(
@@ -50,6 +53,7 @@ class VSS055Actuator(_UnidentifiedVstoneActuator):
     """Unidentified VS-S055 model prepared for separate BAM fitting."""
 
     servo_model = "VS-S055"
+    specification = VS_S055_SPECIFICATION
 
 
 class VSS055CActuator(_UnidentifiedVstoneActuator):

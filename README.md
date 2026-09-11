@@ -21,6 +21,31 @@ Protocol references:
 - [Vstone VS-S055 product specifications](https://www.vstone.co.jp/products/vs_s055/index.html)
 - [Futaba RS303MR/RS304MD command manual](https://www.rc.futaba.co.jp/downloads/shop/WCI00000307N2511071447xdvub.pdf?mode=view)
 
+Manufacturer-published VS-S055 product data:
+
+| Item | VS-S055 (normal cable) |
+| --- | --- |
+| Listed price | JPY 4,000 before tax |
+| Dimensions | 19.6 (W) × 35.8 (D) × 25.0 (H) mm |
+| Mass | Approximately 19.6 g |
+| Servo output torque | 5.5 kgf·cm at 7.2 V |
+| Operating speed | 0.16 s/60° at 7.4 V |
+| Motion range | 300° |
+| Supply voltage | 4.8–7.4 V |
+| Control methods listed by Vstone | TTL command and PWM |
+| Serial interface | Up to 230.4 kbps, TTL half-duplex, Futaba serial command compatible |
+| Sensor information | Angle, torque, temperature |
+| Calibration | 31 points |
+| Package contents | Servo, horn, horn screw, ADH servo connector (200 mm) |
+
+The same values are available as immutable reference metadata through
+`bam.vstone.VS_S055_SPECIFICATION`. They are not identified BAM values for
+`kt`, winding resistance, controller gain, armature inertia, or friction. The
+current `VstoneBus` implements only the TTL serial command path; listing PWM in
+the product table does not mean that this package implements a PWM transport.
+Equivalent numerical specifications have not been assigned to VS-S055C because
+a standalone manufacturer specification has not been confirmed.
+
 The protocol implementation and its evidence are tracked in
 [`VSTONE-BAM-PROTOCOL-001`](docs/issues/VSTONE-BAM-PROTOCOL-001.md).
 
