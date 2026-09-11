@@ -6,16 +6,17 @@
 
 #     http://www.apache.org/licenses/LICENSE-2.0
 
-from .testbench import Pendulum
-from .erob.actuator import ErobActuator
 from .dynamixel.actuator import (
     MXActuator,
     XL320Actuator,
     XL330Actuator,
     XL330CurrentActuator,
 )
+from .erob.actuator import ErobActuator
 from .feetech.actuator import STS3215Actuator
+from .testbench import Pendulum
 from .unitree.actuator import UnitreeGo1Actuator
+from .vstone.actuator import VSS055Actuator
 from .waveshare.actuator import ST3025Actuator
 
 actuators = {
@@ -35,4 +36,6 @@ actuators = {
     "waveshare_st3025": lambda: ST3025Actuator(Pendulum),
     # Unitree Go1
     "unitree_go1": lambda: UnitreeGo1Actuator(Pendulum),
+    # Vstone VS-S055 (model parameters are not bundled until identification)
+    "vstone_vs_s055": lambda: VSS055Actuator(Pendulum),
 }

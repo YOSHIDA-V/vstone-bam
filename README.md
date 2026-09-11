@@ -2,7 +2,28 @@
   <img src="docs/_static/BAM_logo.png" alt="BAM logo" width="60%">
 </p>
 
-# BAM: Better Actuator Models
+# Vstone-BAM
+
+This repository is a fork of [Rhoban/BAM](https://github.com/Rhoban/bam) that
+adds a Vstone manufacturer boundary for the VS-S055 servo while preserving the
+upstream model and fitting pipeline.
+
+Current Vstone support includes a hardware-independent Futaba-compatible packet
+codec, an explicit serial bus API, and the unparameterized
+`vstone_vs_s055` actuator entry used by BAM fitting. No identified VS-S055
+friction parameters are bundled yet, and physical VS-S055 compatibility has not
+been verified. Importing the package does not open a serial port, enable torque,
+or send a goal position.
+
+Protocol references:
+
+- [Vstone VS-S055 product specifications](https://www.vstone.co.jp/products/vs_s055/index.html)
+- [Futaba RS303MR/RS304MD command manual](https://www.rc.futaba.co.jp/downloads/shop/WCI00000307N2511071447xdvub.pdf?mode=view)
+
+The protocol implementation and its evidence are tracked in
+[`VSTONE-BAM-PROTOCOL-001`](docs/issues/VSTONE-BAM-PROTOCOL-001.md).
+
+## Upstream BAM
 
 Accurate models of servo actuators are essential for the simulation of robotic systems. It is particularly important while performing Reinforcement Learning (RL) on real robots, as the precision of the model impacts directly the transferability of the learned policy.
 

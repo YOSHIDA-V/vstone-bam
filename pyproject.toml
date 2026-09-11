@@ -46,6 +46,7 @@ identification = [
     "protobuf>=3.20,<4.0",
     "dynamixel_sdk",
     "rustypot>=1.5.0",
+    "pyserial",
     "optuna",
     "cmaes",
     "wandb",
@@ -58,8 +59,9 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Rhoban/bam"
-Repository = "https://github.com/Rhoban/bam"
+Homepage = "https://github.com/YOSHIDA-V/vstone-bam"
+Repository = "https://github.com/YOSHIDA-V/vstone-bam"
+Upstream = "https://github.com/Rhoban/bam"
 
 [tool.setuptools.packages.find]
 include = ["bam*"]
