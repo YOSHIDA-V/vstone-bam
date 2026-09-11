@@ -177,6 +177,19 @@ commands.
 ``VstoneBus.open`` requires an explicit baud rate. The Futaba manual's default
 must not be assumed to be the configured value of a VS-S055.
 
+For the CP2110 hardware path previously used with the Vstone dual-arm master,
+use ``VstoneBus.open_cp2110(baudrate=115200)`` after installing the
+``identification`` extra. This path uses the ``hidapi`` Windows wheel directly
+and does not require WSL. This constructor validates the requested baud rate,
+8N1 framing, disabled flow control, an already-enabled UART, and open-drain TX.
+It does not enable UART or change the UART/pin configuration. CP2110 HID
+framing, local-echo validation, FIFO recovery, and eight bounded read attempts
+are kept inside the transport boundary. If multiple CP2110 adapters are
+connected, pass ``serial_number=...`` explicitly. The position-read packet has
+prior physical-use evidence through the earlier WSL path; this Windows-native
+transport, telemetry-block reads, and all torque or target-position writes
+still require separate target verification in this repository.
+
 Checking jitter
 ---------------
 

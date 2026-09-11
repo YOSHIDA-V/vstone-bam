@@ -1,6 +1,6 @@
 # VSTONE-BAM-CP2110-002
 
-- State: `ROOT_CAUSE_PROVEN`
+- State: `FIXED_IN_CONTROLLED_ENVIRONMENT`
 - Observed behavior: the previously used VS-S055 path communicates through a
   CP2110 HID adapter with 115200 baud, 8N1, disabled flow control, open-drain TX,
   length-prefixed HID reports, local-echo validation, and FIFO recovery. The
@@ -20,7 +20,7 @@
   - `bam.vstone.cp2110` cannot be imported.
   - `VstoneBus` has no `open_cp2110` constructor.
   - the `identification` extra does not declare `pycp2110`.
-- Root-cause hypothesis: the packet codec was added, but the CP2110 physical
+- Proven root cause: the packet codec was added, but the CP2110 physical
   transport used by the existing dual-arm reader was not added at the transport
   boundary.
 - Values that would prove the cause:
@@ -33,6 +33,9 @@
   - `ROOT_CAUSE_PROVEN`: source search finds only the pyserial import and
     `serial.Serial` construction in `bam/vstone/bus.py`; no CP2110 transport or
     constructor exists.
+  - `FIXED_IN_CONTROLLED_ENVIRONMENT`: the Windows-native fake-HID suite passes,
+    the compiled Windows `hidapi` module imports, and the built wheel contains
+    both the CP2110 module and its optional dependency metadata.
 - Files allowed to change:
   - `bam/vstone/cp2110.py`
   - `bam/vstone/bus.py`
@@ -47,12 +50,14 @@
   - existing manufacturer drivers
   - servo ROM, IDs, baud setting, torque state, and physical hardware
 - Controlled-environment pass criteria:
-  - `pycp2110==1.0.0` is an optional identification dependency and is imported
-    only when CP2110 access is requested.
+  - `hidapi==0.15.0` is an optional identification dependency and its Windows
+    native module is imported only when CP2110 access is requested.
+  - no WSL runtime or `pycp2110` DLL lookup is required.
   - the CP2110 transport validates an already-enabled UART at the explicitly
     requested baud, 8 data bits, no parity, one stop bit, and no flow control.
   - TX must already be open-drain; a mismatched adapter is closed and rejected
-    without writing feature reports or enabling UART.
+    without writing feature reports or enabling/changing UART configuration.
+  - multiple adapters require an explicit CP2110 serial number.
   - both FIFOs are purged before the first transaction and during retry recovery.
   - UART writes use the CP2110 one-byte length prefix and reject payloads over
     63 bytes.
@@ -70,3 +75,7 @@
     modified.
   - constructing a Vstone bus performs no implicit torque or motion command.
   - importing the base package does not require a hardware dependency.
+- Remaining blocker outside this Issue: installing the complete upstream
+  `identification` extra on Windows currently fails because its unconstrained
+  `PyQt5-Qt5` dependency resolves to a release without a Windows wheel. This is
+  tracked separately and is not evidence against the isolated CP2110 transport.

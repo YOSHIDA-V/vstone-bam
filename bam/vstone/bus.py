@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Protocol, Self
+from typing import Any, Protocol, Self
 
 from .protocol import (
     GOAL_POSITION,
@@ -39,8 +39,11 @@ class VstoneBus:
     Use :meth:`open` when a real serial port should be opened explicitly.
     """
 
-    def __init__(self, transport: SerialLike):
+    def __init__(self, transport: SerialLike, *, read_attempts: int = 1):
+        if not isinstance(read_attempts, int) or read_attempts < 1:
+            raise ValueError("read_attempts must be a positive integer")
         self.transport = transport
+        self.read_attempts = read_attempts
 
     @classmethod
     def open(
@@ -49,6 +52,7 @@ class VstoneBus:
         *,
         baudrate: int,
         timeout: float = 0.1,
+        read_attempts: int = 1,
     ) -> Self:
         """Open pyserial without changing servo ROM or assuming its baud rate."""
 
@@ -59,7 +63,32 @@ class VstoneBus:
                 "pyserial is required for hardware access; install the "
                 "'identification' extra"
             ) from exc
-        return cls(serial.Serial(port=port, baudrate=baudrate, timeout=timeout))
+        return cls(
+            serial.Serial(port=port, baudrate=baudrate, timeout=timeout),
+            read_attempts=read_attempts,
+        )
+
+    @classmethod
+    def open_cp2110(
+        cls,
+        *,
+        baudrate: int,
+        timeout: float = 0.1,
+        read_attempts: int = 8,
+        serial_number: str | None = None,
+        hid_module: Any | None = None,
+    ) -> Self:
+        """Open the Windows-native CP2110 open-drain transport explicitly."""
+
+        from .cp2110 import Cp2110Transport
+
+        transport = Cp2110Transport.open(
+            baudrate=baudrate,
+            timeout=timeout,
+            serial_number=serial_number,
+            hid_module=hid_module,
+        )
+        return cls(transport, read_attempts=read_attempts)
 
     def close(self) -> None:
         self.transport.close()
@@ -119,10 +148,27 @@ class VstoneBus:
     def request_telemetry(self, servo_id: int) -> Telemetry:
         """Request and decode the contiguous telemetry block."""
 
-        self._write(encode_read_request(servo_id, PRESENT_POSITION, TELEMETRY_LENGTH))
-        reply = self.read_return_packet()
-        if reply.servo_id != servo_id:
-            raise PacketError(
-                f"received servo ID {reply.servo_id}, expected {servo_id}"
-            )
-        return decode_telemetry(reply)
+        for attempt in range(self.read_attempts):
+            try:
+                self._write(
+                    encode_read_request(
+                        servo_id,
+                        PRESENT_POSITION,
+                        TELEMETRY_LENGTH,
+                    )
+                )
+                reply = self.read_return_packet()
+                if reply.servo_id != servo_id:
+                    raise PacketError(
+                        f"received servo ID {reply.servo_id}, expected {servo_id}"
+                    )
+                return decode_telemetry(reply)
+            except (OSError, RuntimeError, TimeoutError, PacketError):
+                if attempt + 1 >= self.read_attempts:
+                    raise
+                recover = getattr(self.transport, "recover", None)
+                if not callable(recover):
+                    raise
+                recover()
+
+        raise AssertionError("unreachable")
