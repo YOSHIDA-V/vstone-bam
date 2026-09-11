@@ -5,15 +5,16 @@
 # Vstone-BAM
 
 This repository is a fork of [Rhoban/BAM](https://github.com/Rhoban/bam) that
-adds a Vstone manufacturer boundary for the VS-S055 servo while preserving the
-upstream model and fitting pipeline.
+adds Vstone manufacturer boundaries for the VS-S055 and VS-S055C servos while
+preserving the upstream model and fitting pipeline.
 
 Current Vstone support includes a hardware-independent Futaba-compatible packet
-codec, an explicit serial bus API, and the unparameterized
-`vstone_vs_s055` actuator entry used by BAM fitting. No identified VS-S055
-friction parameters are bundled yet, and physical VS-S055 compatibility has not
-been verified. Importing the package does not open a serial port, enable torque,
-or send a goal position.
+codec, an explicit serial bus API, and the unparameterized `vstone_vs_s055` and
+`vstone_vs_s055c` actuator entries used by BAM fitting. No identified VS-S055 or
+VS-S055C friction parameters are bundled yet. The protocol implementation
+remains scoped to VS-S055; VS-S055C communication compatibility has not been
+verified. Importing the package does not open a serial port, enable torque, or
+send a goal position.
 
 Protocol references:
 

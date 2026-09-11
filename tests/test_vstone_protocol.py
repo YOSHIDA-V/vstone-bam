@@ -148,16 +148,27 @@ def test_bus_rejects_reply_from_another_servo():
         VstoneBus(FakeSerial(reply_from_servo_2)).request_telemetry(1)
 
 
-def test_vstone_model_is_registered_but_has_no_bundled_parameters():
+@pytest.mark.parametrize(
+    ("motor_name", "class_name", "servo_model"),
+    [
+        ("vstone_vs_s055", "VSS055Actuator", "VS-S055"),
+        ("vstone_vs_s055c", "VSS055CActuator", "VS-S055C"),
+    ],
+)
+def test_vstone_models_are_registered_but_have_no_bundled_parameters(
+    motor_name, class_name, servo_model
+):
     from bam.actuators import actuators
     from bam.model import Model, load_model
 
-    actuator = actuators["vstone_vs_s055"]()
+    actuator = actuators[motor_name]()
     model = Model()
     model.set_actuator(actuator)
 
+    assert type(actuator).__name__ == class_name
+    assert actuator.servo_model == servo_model
     assert actuator.vin == 7.4
     assert model.error_gain_ratio.optimize
     assert actuator.get_extra_inertia() == model.armature.value
     with pytest.raises(FileNotFoundError):
-        load_model(motor_name="vstone_vs_s055", model="m1")
+        load_model(motor_name=motor_name, model="m1")

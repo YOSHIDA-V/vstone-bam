@@ -1,10 +1,11 @@
 Identified actuators
 ====================
 
-The Vstone VS-S055 does not appear in this table yet. Its communication and
-fit-ready actuator boundary are available as ``bam.vstone`` and
-``vstone_vs_s055``, but no physically identified friction parameter JSON is
-bundled.
+The Vstone VS-S055 and VS-S055C do not appear in this table yet. Separate
+fit-ready actuator boundaries are available as ``vstone_vs_s055`` and
+``vstone_vs_s055c``, but no physically identified friction parameter JSON is
+bundled for either model. Communication support remains scoped to VS-S055;
+VS-S055C protocol compatibility is unverified.
 
 Each motor below ships with pre-identified friction parameters. Click a motor
 to browse its JSON parameters, or use the **Use in MuJoCo** / **Use in mjlab**

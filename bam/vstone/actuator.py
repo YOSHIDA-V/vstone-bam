@@ -1,16 +1,20 @@
-"""Provisional BAM actuator boundary for the Vstone VS-S055."""
+"""Provisional BAM actuator boundaries for Vstone servos."""
 
 from bam.actuator import VoltageControlledActuator
 from bam.parameter import Parameter
 from bam.testbench import Testbench
 
 
-class VSS055Actuator(VoltageControlledActuator):
-    """Unidentified VS-S055 model prepared for BAM fitting.
+class _UnidentifiedVstoneActuator(VoltageControlledActuator):
+    """Shared fit-ready boundary for unidentified Vstone servos.
 
-    The voltage range is documented by Vstone. Motor and controller parameters
-    are deliberately broad optimization seeds, not identified product values.
+    The numerical values are deliberately broad optimization seeds, not
+    identified product values. Sharing this implementation does not assert that
+    the registered servo models have equivalent electrical or mechanical
+    characteristics.
     """
+
+    servo_model: str
 
     def __init__(self, testbench_class: Testbench):
         super().__init__(
@@ -40,3 +44,15 @@ class VSS055Actuator(VoltageControlledActuator):
 
     def get_extra_inertia(self) -> float:
         return self.model.armature.value
+
+
+class VSS055Actuator(_UnidentifiedVstoneActuator):
+    """Unidentified VS-S055 model prepared for separate BAM fitting."""
+
+    servo_model = "VS-S055"
+
+
+class VSS055CActuator(_UnidentifiedVstoneActuator):
+    """Unidentified VS-S055C model prepared for separate BAM fitting."""
+
+    servo_model = "VS-S055C"

@@ -163,19 +163,23 @@ Each recording produces one JSON file:
 Entries are logged at the firmware's native rate, which is not necessarily
 constant. The processing step resamples them to a fixed timestep.
 
-Vstone VS-S055 status
----------------------
+Vstone actuator status
+----------------------
 
 The ``bam.vstone`` package provides the offline-tested packet codec and the
 ``VstoneBus`` transport boundary. It also registers ``vstone_vs_s055`` as an
-unidentified actuator so future VS-S055 recordings can be fitted by BAM.
+unidentified actuator and ``vstone_vs_s055c`` as a separate unidentified
+actuator so future recordings for each model can be fitted independently by
+BAM. The shared initial values are optimization seeds; they do not assert that
+VS-S055 and VS-S055C have equivalent dynamics.
 
 No ``bam.vstone.record`` or ``bam.vstone.all_record`` command is provided yet.
-The VS-S055 controller-gain mapping and safe acquisition sweep have not been
-validated on a physical test bench, so reusing another manufacturer's gain
-values would not produce trustworthy identification data. Physical telemetry,
-torque, and motion checks must be performed separately before adding those
-commands.
+The controller-gain mapping and safe acquisition sweep have not been validated
+on a physical test bench for either servo, so reusing another manufacturer's
+gain values would not produce trustworthy identification data. Physical
+telemetry, torque, and motion checks must be performed separately for each model
+before adding those commands. The current packet codec and transport boundary
+are scoped to VS-S055; VS-S055C communication compatibility is unverified.
 
 ``VstoneBus.open`` requires an explicit baud rate. The Futaba manual's default
 must not be assumed to be the configured value of a VS-S055.
