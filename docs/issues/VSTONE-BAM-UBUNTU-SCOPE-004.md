@@ -1,6 +1,6 @@
 # VSTONE-BAM-UBUNTU-SCOPE-004
 
-- State: `FIXED_IN_CONTROLLED_ENVIRONMENT`
+- State: `PUSHED_CANDIDATE`
 - Observed behavior: the CP2110 candidate is described as Windows-native and
   adds a Windows-only Qt dependency constraint, while the requested deployment
   target is native Ubuntu without WSL.
@@ -53,3 +53,7 @@
     Windows-only declarations, resolves its complete identification dependency
     set for Linux x86-64, resolves `hidapi` from a wheel-only source, and passes
     all tests and static checks.
+  - `PUSHED_CANDIDATE`: source candidate
+    `f7c061a9ff707d8eb8f06f10d47a1b41db253d29` and evidence commit
+    `a06b163e5bb7f87a3c7df1af81d5535a5e65effe` are present on the remote
+    candidate branch.

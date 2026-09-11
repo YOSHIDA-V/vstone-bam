@@ -1,6 +1,6 @@
 # VSTONE-BAM-CP2110-002
 
-- State: `FIXED_IN_CONTROLLED_ENVIRONMENT`
+- State: `PUSHED_CANDIDATE`
 - Observed behavior: the previously used VS-S055 path communicates through a
   CP2110 HID adapter with 115200 baud, 8N1, disabled flow control, open-drain TX,
   length-prefixed HID reports, local-echo validation, and FIFO recovery. The
@@ -36,6 +36,9 @@
   - `FIXED_IN_CONTROLLED_ENVIRONMENT`: the platform-neutral fake-HID suite
     passes, and the built wheel contains both the CP2110 module and its optional
     dependency metadata.
+  - `PUSHED_CANDIDATE`: the native-Ubuntu-scoped source candidate
+    `f7c061a9ff707d8eb8f06f10d47a1b41db253d29` and its controlled evidence are
+    present on `origin/codex/vstone-cp2110-transport`.
 - Files allowed to change:
   - `bam/vstone/cp2110.py`
   - `bam/vstone/bus.py`
