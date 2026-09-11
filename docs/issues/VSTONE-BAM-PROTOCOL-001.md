@@ -1,6 +1,6 @@
 # VSTONE-BAM-PROTOCOL-001
 
-- State: `ROOT_CAUSE_PROVEN`
+- State: `FIXED_IN_CONTROLLED_ENVIRONMENT`
 - Observed behavior: Rhoban/bam has no `bam.vstone` communication package and
   cannot encode or decode the Futaba-compatible TTL packets specified for the
   Vstone VS-S055.
@@ -13,6 +13,8 @@
   - `REPRODUCED`: the six protocol acceptance tests fail at the missing import.
   - `ROOT_CAUSE_PROVEN`: repository search finds zero Vstone source files and
     zero Vstone registry entries; the generic BAM model remains available.
+  - `FIXED_IN_CONTROLLED_ENVIRONMENT`: exact packet, conversion, transport,
+    registry, build, and isolated-wheel checks pass without hardware access.
 - Reproduction values:
   - `import bam.vstone.protocol` fails on the base commit.
   - No `vstone` key exists in `bam/actuators.py`.

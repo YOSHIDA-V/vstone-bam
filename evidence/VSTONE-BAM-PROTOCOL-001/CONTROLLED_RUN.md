@@ -1,10 +1,11 @@
 # VSTONE-BAM-PROTOCOL-001 controlled run
 
-- Status: `RUNNING`
+- Status: `PASSED`
 - Timestamp UTC: `2026-09-11T03:15:40.2656796Z`
 - Run ID: `VSTONE-BAM-PROTOCOL-001-CONTROLLED-20260911`
 - Execution target: `offline_protocol_codec_only`
 - Implementation commit: `d973adbf7088b6e2944601a8d82a1d8974c85250`
+- Execution commit: `cbd4adb28132b032c9823686640c6740d445fd87`
 - Python: `3.12.13`
 - uv: `0.11.15`
 - Test SHA-256:
@@ -22,5 +23,26 @@
   - `uv run python -m compileall -q bam/vstone`
   - `uv build`
   - isolated wheel import with no `serial` module import
+- Results:
+  - pytest: exit `0`; `10 passed in 0.46s`
+  - changed-scope Ruff check: exit `0`; all checks passed
+  - changed-scope Ruff format check: exit `0`; six files already formatted
+  - compileall: exit `0`
+  - build: exit `0`; sdist and wheel built
+  - isolated wheel import: exit `0`; Vstone registry present and
+    `SERIAL_IMPORT=absent`
+  - worktree during run: clean
+- Artifact hashes:
+  - wheel:
+    `A15F2436F16A163D275625C6A3E5DE769A8788EB7458B3DB26525317F787A1D6`
+  - sdist:
+    `49422C71BE142349C69228E46E8981B31BCEA6E33BC2F8A95B78258F128DA419`
+- Repository-wide non-regression checks:
+  - candidate Ruff: 104 pre-existing-style findings
+  - upstream `620a64fe67c1afe94fca81da73b128c7aed17c5f` Ruff: 105 findings
+  - Sphinx HTML: exit `0`; 19 warnings remain in the upstream documentation
+- Claim boundary: offline protocol and packaging are verified. A physical
+  VS-S055, its configured baud rate, telemetry semantics, torque, and motion
+  remain unverified.
 - Physical device access: not performed
 - Servo command transmission: not performed
