@@ -1,6 +1,6 @@
 # VSTONE-BAM-PROTOCOL-001
 
-- State: `FIXED_IN_CONTROLLED_ENVIRONMENT`
+- State: `PUSHED_CANDIDATE`
 - Observed behavior: Rhoban/bam has no `bam.vstone` communication package and
   cannot encode or decode the Futaba-compatible TTL packets specified for the
   Vstone VS-S055.
@@ -15,6 +15,8 @@
     zero Vstone registry entries; the generic BAM model remains available.
   - `FIXED_IN_CONTROLLED_ENVIRONMENT`: exact packet, conversion, transport,
     registry, build, and isolated-wheel checks pass without hardware access.
+  - `PUSHED_CANDIDATE`: controlled candidate `6c76648` is present on
+    `origin/codex/vstone-protocol` with matching local and remote hashes.
 - Reproduction values:
   - `import bam.vstone.protocol` fails on the base commit.
   - No `vstone` key exists in `bam/actuators.py`.
