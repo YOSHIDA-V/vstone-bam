@@ -1,6 +1,6 @@
 # VSTONE-BAM-UBUNTU-SCOPE-004
 
-- State: `ROOT_CAUSE_PROVEN`
+- State: `FIXED_IN_CONTROLLED_ENVIRONMENT`
 - Observed behavior: the CP2110 candidate is described as Windows-native and
   adds a Windows-only Qt dependency constraint, while the requested deployment
   target is native Ubuntu without WSL.
@@ -49,3 +49,7 @@
     `PyQt5-Qt5` Windows constraint.
   - `ROOT_CAUSE_PROVEN`: commit history and source inspection tie all failing
     declarations to the prior Windows interpretation.
+  - `FIXED_IN_CONTROLLED_ENVIRONMENT`: the clean candidate removes the
+    Windows-only declarations, resolves its complete identification dependency
+    set for Linux x86-64, resolves `hidapi` from a wheel-only source, and passes
+    all tests and static checks.
