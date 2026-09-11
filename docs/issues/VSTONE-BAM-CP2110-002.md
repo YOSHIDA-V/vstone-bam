@@ -75,7 +75,7 @@
     modified.
   - constructing a Vstone bus performs no implicit torque or motion command.
   - importing the base package does not require a hardware dependency.
-- Remaining blocker outside this Issue: installing the complete upstream
-  `identification` extra on Windows currently fails because its unconstrained
-  `PyQt5-Qt5` dependency resolves to a release without a Windows wheel. This is
-  tracked separately and is not evidence against the isolated CP2110 transport.
+- Separate blocker resolved: installing the complete upstream `identification`
+  extra initially failed because its unconstrained `PyQt5-Qt5` dependency
+  resolved to a release without a Windows wheel. The fix and evidence are
+  tracked in `VSTONE-BAM-WINDOWS-EXTRA-003`.
