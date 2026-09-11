@@ -1,6 +1,6 @@
 # VSTONE-BAM-WINDOWS-EXTRA-003
 
-- State: `ROOT_CAUSE_PROVEN`
+- State: `FIXED_IN_CONTROLLED_ENVIRONMENT`
 - Observed behavior: on native 64-bit Windows with CPython 3.12,
   `uv sync --extra identification` cannot install the existing BAM
   identification dependencies.
@@ -29,4 +29,11 @@
   - the complete test suite and static checks remain green.
 - Target pass criteria: none; this is an installation-only Issue and sends no
   command to physical hardware.
-
+- Evidence progression:
+  - `OBSERVED`: native Windows installation failed before Vstone code started.
+  - `REPRODUCED`: the failure consistently selected unsupported
+    `pyqt5-qt5==5.15.19`.
+  - `ROOT_CAUSE_PROVEN`: an explicit Windows-compatible Qt runtime constraint
+    made the isolated control installation succeed.
+  - `FIXED_IN_CONTROLLED_ENVIRONMENT`: the complete `identification` extra now
+    synchronizes, both native modules import, and all tests pass on Windows.

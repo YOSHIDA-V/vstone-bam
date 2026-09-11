@@ -21,6 +21,10 @@ Then, install the extra dependencies for the identification pipeline using
 
    uv sync --extra identification
 
+On native Windows, the extra constrains the Qt runtime to the available
+``PyQt5-Qt5==5.15.2`` wheel. WSL is not required for installation or CP2110
+communication.
+
 Trajectories
 ----------------------
 
