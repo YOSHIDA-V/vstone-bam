@@ -1,6 +1,6 @@
 # VSTONE-BAM-PROTOCOL-001
 
-- State: `OBSERVED`
+- State: `ROOT_CAUSE_PROVEN`
 - Observed behavior: Rhoban/bam has no `bam.vstone` communication package and
   cannot encode or decode the Futaba-compatible TTL packets specified for the
   Vstone VS-S055.
@@ -8,6 +8,11 @@
 - Execution target: `offline_protocol_codec_only`
 - Base commit: `620a64fe67c1afe94fca81da73b128c7aed17c5f`
 - Runtime hashes: not applicable before the first controlled test run
+- Evidence progression:
+  - `OBSERVED`: upstream base has no `bam.vstone` package.
+  - `REPRODUCED`: the six protocol acceptance tests fail at the missing import.
+  - `ROOT_CAUSE_PROVEN`: repository search finds zero Vstone source files and
+    zero Vstone registry entries; the generic BAM model remains available.
 - Reproduction values:
   - `import bam.vstone.protocol` fails on the base commit.
   - No `vstone` key exists in `bam/actuators.py`.
@@ -60,4 +65,3 @@ Futaba-compatible command set, with a maximum communication rate of 230.4 kbps.
 The detailed frame and memory-map values used by the offline tests come from
 the Futaba RS303MR/RS304MD user manual version 1.19. Compatibility with the
 actual VS-S055 remains unverified until the target criteria above are met.
-
